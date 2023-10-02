@@ -1,0 +1,22 @@
+name: Auto Merge Develop into Feature Branches
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Merge Develop into Feature Branch
+      run: |
+        git fetch origin
+        git checkout ${{ github.ref }}
+        git merge origin/develop
+        git push origin ${{ github.ref }}
